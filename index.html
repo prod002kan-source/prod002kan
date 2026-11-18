@@ -222,8 +222,8 @@
 // ===== CONFIG =====
 const LIFF_ID = '2008980550-ejVKhn59';
 const WEBHOOK_URL = 'https://hook.eu1.make.com/go2jns8y4uzofwmzq4dblnyns7cmqi72';
-// API ดึง/บันทึกร่างข่าวสำหรับโหมดแก้ไข (Make: Scenario 3 Edit-Draft-API) ตรวจสิทธิ์ด้วย LINE access token ฝั่ง Make
-const EDIT_API_URL = 'https://hook.eu1.make.com/qaqh5l53kbbcbl3b344juwm64pea5oxm';
+// API ดึง/บันทึกร่างข่าว ใช้ webhook เดียวกับ Scenario 1 (แยกด้วย action=get/save) ตรวจสิทธิ์ด้วย LINE access token ฝั่ง Make
+const EDIT_API_URL = WEBHOOK_URL;
 const SUPABASE_URL = 'https://ngreqaszduphwftwswdj.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ncmVxYXN6ZHVwaHdmdHdzd2RqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAxMTcyNTMsImV4cCI6MjA3NTY5MzI1M30.balzxiWXum4lnl6dCrNzSoF02tRfmG19rEqMnHSynwk';
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQA5WsMKHm9yiBhlLYyBPy4R71gfSzdQCpjzdg_wLL97RaWjQGfCzPie84oBFvqR3cdRWMuFVyVpu0f/pub?gid=0&single=true&output=csv';
