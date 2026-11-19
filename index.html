@@ -310,6 +310,7 @@ async function editApi(action, extra = {}) {
     if (!res.ok) {
       const code = data && data.error;
       if (code === 'no_draft') throw new Error('ไม่พบร่างข่าว (อาจอนุมัติโพสต์ไปแล้ว หรือยังไม่ได้ส่งข่าวใหม่)');
+      if (code === 'forbidden') throw new Error('ร่างนี้ไม่ใช่ของคุณ');
       if (code === 'unauthorized') throw new Error('ยืนยันตัวตนไม่สำเร็จ กรุณาเปิดจากแชท LINE อีกครั้ง');
       if (code === 'bad_request') throw new Error('ข้อความไม่ถูกต้อง (ต้องมี ' + REQUIRED_HASHTAG + ')');
       throw new Error('เกิดข้อผิดพลาด (' + res.status + ')');
@@ -322,10 +323,11 @@ async function editApi(action, extra = {}) {
 }
 
 async function enterEditMode() {
+  const DRAFT_ID = getParam('draft') || '';  // รหัสร่างของข่าวนี้ (ว่าง = ใช้ร่างล่าสุดของผู้ใช้ เพื่อรองรับปุ่มเก่า)
   $('newsForm').classList.add('hidden');
   $('loading-text').innerText = 'กำลังดึงร่างข่าว...';
   try {
-    const d = await editApi('get');
+    const d = await editApi('get', { draft: DRAFT_ID });
     if (!d.caption) throw new Error('ไม่พบร่างข่าว (อาจอนุมัติโพสต์ไปแล้ว หรือยังไม่ได้ส่งข่าวใหม่)');
     $('draft_text').value = d.caption;
     updateDraftCount();
@@ -355,7 +357,7 @@ $('draft_save').addEventListener('click', async () => {
   btn.disabled = true;
   label.innerText = '⏳ กำลังบันทึก...';
   try {
-    await editApi('save', { caption: text });
+    await editApi('save', { caption: text, draft: getParam('draft') || '' });
     alert('✅ บันทึกแล้ว! กลับไปที่แชท LINE แล้วกด "อนุมัติโพสต์" เพื่อโพสต์ข่าว');
     try { if (liff.isInClient()) liff.closeWindow(); } catch (_) {}
     label.innerText = '✅ บันทึกแล้ว';
